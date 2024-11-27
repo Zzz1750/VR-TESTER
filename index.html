@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>360° Video VR with A-Frame</title>
   <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/supermedium/aframe-controller-cursor-component/dist/aframe-controller-cursor-component.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
 
@@ -23,12 +24,15 @@
     </a-assets>
 
     <!-- Camera Setup -->
-    <a-camera position="0 1 0" look-controls="pointerLockEnabled: true;">
-      <a-cursor></a-cursor>
+    <a-camera position="0 1.6 0">
+      <!-- The default camera -->
     </a-camera>
 
+    <!-- Laser Controller -->
+    <a-entity laser-controls="hand: right" raycaster="objects: .clickable" line="color: #FF0000; opacity: 0.75"></a-entity>
+
     <!-- Play/Pause Button -->
-    <a-box position="0 1 -3" width="0.5" height="0.25" depth="0.05" color="#FF5733" class="clickable" id="playPauseButton">
+    <a-box position="0 1 -3" width="2" height="0.5" depth="0.1" color="#FF5733" class="clickable" id="playPauseButton">
       <a-text value="Play/Pause" align="center" position="0 0 0.1" color="#FFF"></a-text>
     </a-box>
 

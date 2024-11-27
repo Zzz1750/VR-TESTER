@@ -9,10 +9,10 @@
 <body style="margin: 0; overflow: hidden;">
 
   <a-scene>
-    <!-- Video Sphere with adjusted radius and segments -->
+    <!-- Video Sphere -->
     <a-videosphere id="videoSphere" src="#vrVideo" radius="15" segments-height="128" segments-width="256"></a-videosphere>
 
-    <!-- Sky Fallback (black background to hide black hole) -->
+    <!-- Sky Fallback -->
     <a-sky color="#000000"></a-sky>
 
     <!-- Assets -->
@@ -26,10 +26,46 @@
     <a-camera position="0 1.6 0" look-controls="pointerLockEnabled: true;">
       <a-cursor></a-cursor>
     </a-camera>
+
+    <!-- Play Button -->
+    <a-entity 
+      id="playButton" 
+      geometry="primitive: plane; height: 0.5; width: 1;" 
+      material="color: green;" 
+      position="1 1.5 -3" 
+      text="value: Play; align: center; color: white;"
+      onclick="playVideo()">
+    </a-entity>
+
+    <!-- Pause Button -->
+    <a-entity 
+      id="pauseButton" 
+      geometry="primitive: plane; height: 0.5; width: 1;" 
+      material="color: red;" 
+      position="-1 1.5 -3" 
+      text="value: Pause; align: center; color: white;"
+      onclick="pauseVideo()">
+    </a-entity>
   </a-scene>
 
   <script>
     const video = document.getElementById('vrVideo');
+
+    // Function to play the video
+    function playVideo() {
+      if (video.paused) {
+        video.play();
+        console.log('Video played');
+      }
+    }
+
+    // Function to pause the video
+    function pauseVideo() {
+      if (!video.paused) {
+        video.pause();
+        console.log('Video paused');
+      }
+    }
 
     video.addEventListener('canplay', () => {
       console.log('Video is ready and can play');

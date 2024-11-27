@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2</title>
+  <title>djfhdjfh</title>
   <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
 </head>
 <body>
@@ -13,15 +13,18 @@
     <a-videosphere 
       src="#vrVideo" 
       rotation="0 -90 0" 
-      radius="50" 
+      radius="10" 
       segments-height="128" 
       segments-width="128">
     </a-videosphere>
 
-    <!-- Assets (Including Video) -->
+    <!-- Sky Fallback (to hide black hole areas) -->
+    <a-sky color="#000000"></a-sky>
+
+    <!-- Assets -->
     <a-assets>
       <video id="vrVideo" autoplay loop muted crossorigin="anonymous" playsinline>
-        <source src="your-video.mp4" type="video/mp4">
+        <source src="2.mp4" type="video/mp4">
       </video>
     </a-assets>
 
@@ -32,15 +35,20 @@
   </a-scene>
 
   <script>
-    // Handle video readiness
+    // Debugging for the video
     const video = document.getElementById('vrVideo');
+
     video.addEventListener('canplay', () => {
-      console.log('Video is ready');
+      console.log('Video is ready and can play');
       video.play();
     });
 
     video.addEventListener('loadeddata', () => {
-      console.log('Video metadata loaded');
+      console.log('Video data has been loaded');
+    });
+
+    video.addEventListener('error', (e) => {
+      console.error('Error loading video:', e);
     });
   </script>
 </body>

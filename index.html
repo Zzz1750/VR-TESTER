@@ -3,53 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>djfhdjfh</title>
-  <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+  <title>360° Video VR with Three.js</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/webvr-polyfill@0.10.1/build/webvr-polyfill.js"></script>
 </head>
-<body>
-  <!-- A-Frame Scene -->
-  <a-scene>
-    <!-- Video Sphere -->
-    <a-videosphere 
-      src="#vrVideo" 
-      rotation="0 -90 0" 
-      radius="10" 
-      segments-height="128" 
-      segments-width="128">
-    </a-videosphere>
-
-    <!-- Sky Fallback (to hide black hole areas) -->
-    <a-sky color="#000000"></a-sky>
-
-    <!-- Assets -->
-    <a-assets>
-      <video id="vrVideo" autoplay loop muted crossorigin="anonymous" playsinline>
-        <source src="2.mp4" type="video/mp4">
-      </video>
-    </a-assets>
-
-    <!-- Camera -->
-    <a-camera position="0 1.6 0">
-      <a-cursor></a-cursor>
-    </a-camera>
-  </a-scene>
+<body style="margin: 0; overflow: hidden;">
 
   <script>
-    // Debugging for the video
-    const video = document.getElementById('vrVideo');
+    let scene, camera, renderer, video, videoTexture, videoMesh, vrEffect;
 
-    video.addEventListener('canplay', () => {
-      console.log('Video is ready and can play');
-      video.play();
+    // Create Scene
+    scene = new THREE.Scene();
+
+    // Create Camera
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1.6, 0);  // Set camera at user height
+
+    // Create Renderer
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Create the Video Element
+    video = document.createElement('video');
+    video.src = '2.mp4';  // Path to 360 video
+    video.crossOrigin = 'anonymous';
+    video.loop = true;
+    video.muted = true;
+    video.play();
+
+    // Create Video Texture
+    videoTexture = new THREE.VideoTexture(video);
+    videoTexture.minFilter = THREE.LinearFilter;
+    videoTexture.magFilter = THREE.LinearFilter;
+    videoTexture.format = THREE.RGBFormat;
+
+    // Create Sphere Geometry and apply video texture
+    const geometry = new THREE.SphereGeometry(500, 60, 40);  // Larger radius, finer details
+    const material = new THREE.MeshBasicMaterial({ map: videoTexture });
+    material.side = THREE.BackSide;  // Map the texture to the inside of the sphere
+    videoMesh = new THREE.Mesh(geometry, material);
+    scene.add(videoMesh);
+
+    // Handle Window Resizing
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
     });
 
-    video.addEventListener('loadeddata', () => {
-      console.log('Video data has been loaded');
-    });
+    // VR Support Setup (using WebVR Polyfill)
+    if (navigator.getVRDisplays) {
+      vrEffect = new THREE.VREffect(renderer);
+      vrEffect.setSize(window.innerWidth, window.innerHeight);
+      camera.position.set(0, 1.6, 0);  // Make sure camera is at eye level
+    }
 
-    video.addEventListener('error', (e) => {
-      console.error('Error loading video:', e);
-    });
+    // Animate the Scene
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+
+      if (vrEffect) {
+        vrEffect.render(scene, camera);
+      }
+    }
+
+    animate();
   </script>
+
 </body>
 </html>

@@ -3,36 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>1</title>
+  <title>2</title>
   <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
 </head>
 <body>
   <!-- A-Frame Scene -->
   <a-scene>
-    <!-- Video Sphere with Adjusted Radius -->
+    <!-- Video Sphere -->
     <a-videosphere 
       src="#vrVideo" 
       rotation="0 -90 0" 
-      radius="5000" 
-      segments-height="64" 
-      segments-width="64"
-    ></a-videosphere>
+      radius="50" 
+      segments-height="128" 
+      segments-width="128">
+    </a-videosphere>
 
     <!-- Assets (Including Video) -->
     <a-assets>
       <video id="vrVideo" autoplay loop muted crossorigin="anonymous" playsinline>
-        <source src="2.mp4" type="video/mp4">
+        <source src="your-video.mp4" type="video/mp4">
       </video>
     </a-assets>
 
-    <!-- Camera for User Movement -->
-    <a-camera position="0 1.6 0" wasd-controls-enabled="false">
+    <!-- Camera -->
+    <a-camera position="0 1.6 0">
       <a-cursor></a-cursor>
     </a-camera>
   </a-scene>
 
   <script>
-    // Ensure the video is ready before displaying
+    // Handle video readiness
     const video = document.getElementById('vrVideo');
     video.addEventListener('canplay', () => {
       console.log('Video is ready');

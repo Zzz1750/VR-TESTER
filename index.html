@@ -3,26 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VR TESTER</title>
+  <title>360° Video VR Experience</title>
   <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
 </head>
 <body>
+  <!-- A-Frame Scene -->
   <a-scene>
+    <!-- Video Sphere -->
     <a-videosphere 
       src="#vrVideo" 
       rotation="0 -90 0"
       play-on-vrdisplayactivate>
     </a-videosphere>
 
+    <!-- Assets (Including Video) -->
     <a-assets>
-      <video id="vrVideo" autoplay loop crossorigin="anonymous" playsinline>
-        <source src="1.mp4" type="video/mp4">
+      <video id="vrVideo" autoplay loop muted crossorigin="anonymous" playsinline>
+        <source src="1.MP4" type="video/mp4">
       </video>
     </a-assets>
 
+    <!-- Camera for User Movement -->
     <a-camera position="0 1.6 0" wasd-controls-enabled="false">
       <a-cursor></a-cursor>
     </a-camera>
   </a-scene>
+
+  <script>
+    // Ensure the video is ready before displaying
+    const video = document.getElementById('vrVideo');
+    video.addEventListener('canplay', () => {
+      console.log('Video is ready');
+      video.play();
+    });
+
+    // Optionally, you can add a listener to handle the video in VR
+    video.addEventListener('loadeddata', () => {
+      console.log('Video metadata loaded');
+    });
+  </script>
 </body>
 </html>

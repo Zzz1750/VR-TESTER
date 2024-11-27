@@ -10,26 +10,41 @@
 <body style="margin: 0; overflow: hidden;">
 
   <a-scene>
-    <!-- Video Sphere -->
     <a-videosphere id="videoSphere" src="#vrVideo" radius="20" segments-height="128" segments-width="256"></a-videosphere>
 
-    <!-- Sky Fallback -->
     <a-sky color="#000000"></a-sky>
 
-    <!-- Assets -->
     <a-assets>
-      <video id="vrVideo" autoplay loop muted crossorigin="anonymous" playsinline>
+      <video id="vrVideo" muted autoplay loop playsinline crossorigin="anonymous">
         <source src="31.mp4" type="video/mp4">
       </video>
     </a-assets>
 
-    <!-- Camera Setup -->
     <a-camera position="0 1.6 0"></a-camera>
 
-    <!-- Laser Controller -->
     <a-entity laser-controls="hand: right" raycaster="objects: .clickable" line="color: #FF0000; opacity: 0.75"></a-entity>
 
   </a-scene>
+
+  <script>
+    const video = document.getElementById('vrVideo');
+
+    document.body.addEventListener('click', () => {
+      if (video.paused) {
+        video.play().catch(err => {
+          console.error("Error attempting to play video:", err);
+        });
+      }
+    });
+
+    video.addEventListener('canplay', () => {
+      console.log('Video is ready and can play');
+    });
+
+    video.addEventListener('error', (e) => {
+      console.error('Error loading video:', e);
+    });
+  </script>
 
 </body>
 </html>

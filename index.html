@@ -9,10 +9,10 @@
 <body style="margin: 0; overflow: hidden;">
 
   <a-scene>
-    <!-- Video Sphere -->
+    <!-- Video Sphere with adjusted radius and segments -->
     <a-videosphere id="videoSphere" src="#vrVideo" radius="15" segments-height="128" segments-width="256"></a-videosphere>
 
-    <!-- Sky Fallback -->
+    <!-- Sky Fallback (black background to hide black hole) -->
     <a-sky color="#000000"></a-sky>
 
     <!-- Assets -->
@@ -27,45 +27,29 @@
       <a-cursor></a-cursor>
     </a-camera>
 
-    <!-- Play Button -->
-    <a-entity 
-      id="playButton" 
-      geometry="primitive: plane; height: 0.5; width: 1;" 
-      material="color: green;" 
-      position="1 1.5 -3" 
-      text="value: Play; align: center; color: white;"
-      onclick="playVideo()">
-    </a-entity>
+    <!-- Play/Pause Button -->
+    <a-box position="0 1 -3" width="2" height="0.5" depth="0.1" color="#FF5733" class="clickable" id="playPauseButton">
+      <a-text value="Play/Pause" align="center" position="0 0 0.1" color="#FFF"></a-text>
+    </a-box>
 
-    <!-- Pause Button -->
-    <a-entity 
-      id="pauseButton" 
-      geometry="primitive: plane; height: 0.5; width: 1;" 
-      material="color: red;" 
-      position="-1 1.5 -3" 
-      text="value: Pause; align: center; color: white;"
-      onclick="pauseVideo()">
-    </a-entity>
   </a-scene>
 
   <script>
     const video = document.getElementById('vrVideo');
+    const button = document.getElementById('playPauseButton');
 
-    // Function to play the video
-    function playVideo() {
-      if (video.paused) {
-        video.play();
-        console.log('Video played');
-      }
-    }
+    let isPlaying = true;  // Flag to track video state
 
-    // Function to pause the video
-    function pauseVideo() {
-      if (!video.paused) {
+    // Toggle play/pause when button is clicked
+    button.addEventListener('click', () => {
+      if (isPlaying) {
         video.pause();
-        console.log('Video paused');
+        isPlaying = false;
+      } else {
+        video.play();
+        isPlaying = true;
       }
-    }
+    });
 
     video.addEventListener('canplay', () => {
       console.log('Video is ready and can play');

@@ -4,31 +4,117 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>360° Video VR Viewer</title>
+  <style>
+    h1 {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: white;
+      z-index: 10;
+    }
+  </style>
   <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/supermedium/aframe-controller-cursor-component/dist/aframe-controller-cursor-component.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
+  <h1 id="tagg"></h1>
 
   <a-scene>
-    <a-videosphere id="videoSphere" src="#vrVideo" radius="20" segments-height="128" segments-width="256"></a-videosphere>
+    <a-videosphere id="videoSphere" rotation="0 90 0" src="#vrVideo" radius="40" segments-height="128" segments-width="256"></a-videosphere>
 
     <a-sky color="#000000"></a-sky>
 
     <a-assets>
-      <video id="vrVideo" muted loop playsinline crossorigin="anonymous">
+      <video id="vrVideo" muted loop playsinline crossorigin="anonymous" >
         <source src="312.mp4" type="video/mp4">
       </video>
     </a-assets>
 
-    <a-camera position="0 1.6 0"></a-camera>
+    <a-camera position="0 1 0"> 
+      <a-cursor 
+        fuse="true" 
+        fuse-timeout="1000" 
+        raycaster="objects: .clickable" 
+        material="color: yellow; shader: flat">
+      </a-cursor>
+    </a-camera>
 
-    <a-entity laser-controls="hand: right" raycaster="objects: .clickable" line="color: #FF0000; opacity: 0.75"></a-entity>
+    <a-entity 
+      laser-controls="hand: right" 
+      raycaster="objects: .clickable" 
+      line="color: #FF0000; opacity: 0.75">
+    </a-entity>
 
+    <a-entity id="Student1" position="-19.6 -5 -12.5">
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;" ></a-plane>
+    </a-entity>
+
+    <a-entity id="Student2" position="-17 -5 -12.5">
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+    </a-entity>
+
+    <a-entity id="Student3" position="-14 -5 -12.5">
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+    </a-entity>
+
+    <a-entity id="Student4" position="-4.8 -4.5 -12">
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable"></a-plane>
+      <a-text value="Student 4" color="black" align="center" position="0 0 0.01"></a-text>
+    </a-entity>
+
+    <a-entity id="Student5" position="-1.5 -4.5 -12">
+      <a-plane color="green" height="2.4" width="2.4" class="clickable"></a-plane>
+      <a-text value="Student 5" color="black" align="center" position="0 0 0.01"></a-text>
+    </a-entity>
+
+    <a-entity id="Student6" position="1.6 -4.5 -12">
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+    </a-entity>
+
+    <a-entity id="Student7" position="11.2 -5 -12">
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+    </a-entity>
+
+    <a-entity id="Student8" position="14.8 -5 -12">
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+    </a-entity>
+
+    <a-entity id="Student9" position="19 -5 -12">
+      <a-plane color="violet" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+      <!-- <a-text value="Student 9" color="black" align="center" position="0 0 0.01"></a-text> -->
+    </a-entity>
+
+    
   </a-scene>
 
   <script>
-    const video = document.getElementById('vrVideo');
+    function setupButtonInteraction(buttonId) {
+      const button = document.getElementById(buttonId);
+      button.addEventListener('click', function() {
+        document.getElementById('tagg').innerHTML = `Selected: ${buttonId}`;
+      });
+    }
 
+    setupButtonInteraction('Student1');
+    setupButtonInteraction('Student2');
+    setupButtonInteraction('Student3');
+    setupButtonInteraction('Student4');
+    setupButtonInteraction('Student5');
+    setupButtonInteraction('Student6');
+    setupButtonInteraction('Student7');
+    setupButtonInteraction('Student8');
+    setupButtonInteraction('Student9');
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    const video = document.getElementById('vrVideo');
     document.body.addEventListener('click', () => {
       if (video.paused) {
         video.play().catch(err => {
@@ -36,11 +122,9 @@
         });
       }
     });
-
     video.addEventListener('canplay', () => {
       console.log('Video is ready and can play');
     });
-
     video.addEventListener('error', (e) => {
       console.error('Error loading video:', e);
     });

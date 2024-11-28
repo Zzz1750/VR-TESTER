@@ -9,21 +9,11 @@
       margin: 0;
       overflow: hidden;
     }
-    h1 {
-      position: absolute; /* Can be absolute or fixed in the DOM */
-      top: 20px;
-      left: 20px;
-      color: white;
-      font-size: 24px;
-      z-index: 1000;
-      pointer-events: none; /* Ensure it does not block VR interactions */
-    }
   </style>
   <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/supermedium/aframe-controller-cursor-component/dist/aframe-controller-cursor-component.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
-  <h1 id="tagg">test test test test ets t</h1>
 
   <a-scene>
     <a-videosphere id="videoSphere" rotation="0 90 0" src="#vrVideo" radius="40" segments-height="128" segments-width="256"></a-videosphere>
@@ -37,12 +27,16 @@
     </a-assets>
 
     <a-camera position="0 1 0"> 
-      <a-cursor 
+      <a-entity id="uiText" position="0 1 -6">
+        <a-text id="tagg" value="Selected: None" color="white" align="center"></a-text>
+      </a-entity>
+
+      <!-- <a-cursor 
         fuse="true" 
         fuse-timeout="1000" 
         raycaster="objects: .clickable" 
         material="color: yellow; shader: flat">
-      </a-cursor>
+      </a-cursor> -->
     </a-camera>
 
     
@@ -54,15 +48,15 @@
     </a-entity>
 
     <a-entity id="Student1" position="-19.6 -5 -12.5">
-      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;" ></a-plane>
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable"  ></a-plane>
     </a-entity>
 
     <a-entity id="Student2" position="-17 -5 -12.5">
-      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable"></a-plane>
     </a-entity>
 
     <a-entity id="Student3" position="-14 -5 -12.5">
-      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable"></a-plane>
     </a-entity>
 
     <a-entity id="Student4" position="-4.8 -4.5 -12">
@@ -76,19 +70,19 @@
     </a-entity>
 
     <a-entity id="Student6" position="1.6 -4.5 -12">
-      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable" ></a-plane>
     </a-entity>
 
     <a-entity id="Student7" position="11.2 -5 -12">
-      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable" ></a-plane>
     </a-entity>
 
     <a-entity id="Student8" position="14.8 -5 -12">
-      <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+      <a-plane color="orange" height="2.4" width="2.4" class="clickable" ></a-plane>
     </a-entity>
 
     <a-entity id="Student9" position="19 -5 -12">
-      <a-plane color="violet" height="2.4" width="2.4" class="clickable" material="opacity: 0;"></a-plane>
+      <a-plane color="violet" height="2.4" width="2.4" class="clickable" ></a-plane>
       <!-- <a-text value="Student 9" color="black" align="center" position="0 0 0.01"></a-text> -->
     </a-entity>
 
@@ -97,22 +91,13 @@
 
   <script>
 
-    if (navigator.xr) {
-      navigator.xr.requestSession('immersive-vr').then(session => {
-        // Attach the DOM element as a WebXR overlay to the VR session
-        session.addEventListener('end', () => {
-          document.getElementById('tagg').style.display = 'none'; // Hide when VR session ends
-        });
-
-        // Make the h1 tag appear in the VR experience
-        document.getElementById('tagg').style.display = 'block';
-      });
-    }
+    
 
     function setupButtonInteraction(buttonId) {
       const button = document.getElementById(buttonId);
       button.addEventListener('click', function() {
-        document.getElementById('tagg').innerHTML = `Selected: ${buttonId}`;
+        const tagText = document.getElementById('tagg');
+        tagText.setAttribute('value', `Selected: ${buttonId}`);
       });
     }
 

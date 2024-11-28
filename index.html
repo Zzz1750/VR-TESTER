@@ -16,13 +16,15 @@
 <body style="margin: 0; overflow: hidden;">
 
   <a-scene>
+    <!-- Create a videosphere with the Google Drive video texture -->
     <a-videosphere id="videoSphere" rotation="0 90 0" src="#vrVideo" radius="40" segments-height="128" segments-width="256"></a-videosphere>
 
     <a-sky color="#000000"></a-sky>
 
     <a-assets>
-      <video id="vrVideo" muted loop playsinline crossorigin="anonymous" >
-        <source src="312.mp4" type="video/mp4">
+      <!-- Google Drive Video Asset -->
+      <video id="vrVideo" muted loop playsinline crossorigin="anonymous">
+        <source src="https://drive.google.com/uc?export=view&id=14XEZFQ-wgnNOv_m4tM5Etv9b0cjXe4ED" type="video/mp4">
       </video>
     </a-assets>
 
@@ -30,23 +32,16 @@
       <a-entity id="uiText" position="0 1 -6">
         <a-text id="tagg" value="Selected: None" color="white" align="center"></a-text>
       </a-entity>
-
-      <!-- <a-cursor 
-        fuse="true" 
-        fuse-timeout="1000" 
-        raycaster="objects: .clickable" 
-        material="color: yellow; shader: flat">
-      </a-cursor> -->
     </a-camera>
 
-    
-
+    <!-- Interactable buttons -->
     <a-entity 
       laser-controls="hand: right" 
       raycaster="objects: .clickable" 
       line="color: #FF0000; opacity: 0.75">
     </a-entity>
 
+    <!-- Clickable Students -->
     <a-entity id="Student1" position="-19.6 -5 -12.5">
       <a-plane color="orange" height="2.4" width="2.4" class="clickable" material="opacity:0;" ></a-plane>
     </a-entity>
@@ -84,16 +79,10 @@
 
     <a-entity id="Student9" position="19 -5 -12">
       <a-plane color="violet" height="2.4" width="2.4" class="clickable" material="opacity:0;"></a-plane>
-      <!-- <a-text value="Student 9" color="black" align="center" position="0 0 0.01"></a-text> -->
     </a-entity>
-
-    
   </a-scene>
 
   <script>
-
-    
-
     function setupButtonInteraction(buttonId) {
       const button = document.getElementById(buttonId);
       button.addEventListener('click', function() {
@@ -112,15 +101,7 @@
     setupButtonInteraction('Student8');
     setupButtonInteraction('Student9');
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    // Autoplay Video
     const video = document.getElementById('vrVideo');
     document.body.addEventListener('click', () => {
       if (video.paused) {

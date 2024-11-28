@@ -10,20 +10,20 @@
       overflow: hidden;
     }
     h1 {
-      position: fixed; /* Ensure it's fixed to the screen */
+      position: absolute; /* Can be absolute or fixed in the DOM */
       top: 20px;
       left: 20px;
       color: white;
       font-size: 24px;
-      z-index: 1000; /* Ensure it appears above the VR canvas */
-      pointer-events: none; /* Prevent it from interfering with interactions */
+      z-index: 1000;
+      pointer-events: none; /* Ensure it does not block VR interactions */
     }
   </style>
   <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/supermedium/aframe-controller-cursor-component/dist/aframe-controller-cursor-component.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
-  <h1 id="tagg">test</h1>
+  <h1 id="tagg">test test test test ets t</h1>
 
   <a-scene>
     <a-videosphere id="videoSphere" rotation="0 90 0" src="#vrVideo" radius="40" segments-height="128" segments-width="256"></a-videosphere>
@@ -96,6 +96,19 @@
   </a-scene>
 
   <script>
+
+    if (navigator.xr) {
+      navigator.xr.requestSession('immersive-vr').then(session => {
+        // Attach the DOM element as a WebXR overlay to the VR session
+        session.addEventListener('end', () => {
+          document.getElementById('tagg').style.display = 'none'; // Hide when VR session ends
+        });
+
+        // Make the h1 tag appear in the VR experience
+        document.getElementById('tagg').style.display = 'block';
+      });
+    }
+
     function setupButtonInteraction(buttonId) {
       const button = document.getElementById(buttonId);
       button.addEventListener('click', function() {
